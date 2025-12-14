@@ -1,4 +1,3 @@
-
 # Use a Python 3.11 base image
 FROM python:3.11-slim-buster
 
@@ -9,11 +8,12 @@ ENV DJANGO_SETTINGS_MODULE university_erp.settings
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies (if any, though not explicitly required by Django)
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     default-libmysqlclient-dev \
-#     build-essential \
-#     && rm -rf /var/lib/apt/lists/*
+# Install system dependencies required for mysqlclient
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    default-libmysqlclient-dev \
+    pkg-config \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file and install Python dependencies
 COPY backend/requirements.txt /app/backend/requirements.txt
